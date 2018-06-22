@@ -1,0 +1,62 @@
+
+<div>
+    <form class="col-sm-11" name="form" (ngSubmit)="f.form.valid && addItem()" #f="ngForm">
+      <div class="row">
+        <div class="form-group" [ngClass]="{ 'has-error': f.submitted && !itemname.valid }">
+          <label class="col-md-3 col-sm-3 col-xs-12 control-label">Item name</label>
+          <div class="col-md-9 col-sm-9 col-xs-12">
+            <input type="text" class="form-control" id="itemname" name="itemname" [(ngModel)]="model.ItemName" #itemname="ngModel" required />
+            <div *ngIf="f.submitted && !itemname.valid" class="help-block">Item name is required</div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="form-group" [ngClass]="{ 'has-error': f.submitted && !itemvalue.valid }">
+          <label class="col-md-3 col-sm-3 col-xs-12 control-label">Item value</label>
+          <div class="col-md-9 col-sm-9 col-xs-12">
+            <input type="text" class="form-control" id="itemvalue" name="itemvalue" [(ngModel)]="model.ItemValue" #itemvalue="ngModel" required />
+            <div *ngIf="f.submitted && !itemvalue.valid" class="help-block">Item value is required</div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="form-group" [ngClass]="{ 'has-error': f.submitted && !itemtype.valid }">
+          <label class="col-md-3 col-sm-3 col-xs-12 control-label">Item type</label>
+          <div class="col-md-9 col-sm-9 col-xs-12">
+            <input type="text" class="form-control" id="itemtype" name="itemtype" [(ngModel)]="model.ItemType" #itemtype="ngModel" required />
+            <div *ngIf="f.submitted && !itemtype.valid" class="help-block">Item type is required</div>
+          </div>
+        </div>
+      </div>
+      <div class="row text-center">
+        <button type="submit" class="btn btn_create_event" *ngIf="model.ItemID == 0">Create item</button>
+        <button type="submit" class="btn btn_create_event" *ngIf="model.ItemID > 0">Update item</button>
+      </div>
+    </form>
+  </div>
+  <div class="col-md-6" *ngIf="model.ItemID == 0">
+    <h2> Items</h2>
+    <table class="table table-striped">
+      <thead>
+          <tr>
+              <th></th>
+          <th class="hidden">Id</th>
+          <th>ItemName</th>
+          <th>ItemValue</th>
+          <th>ItemType</th>
+          <th>Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let item of items">
+          <td><input type="checkbox" data-md-icheck  #checkdelet id="{{item.ItemID}}" name="deletecheck" value="{{item.ItemID}}" (click)="selectID(item.ItemID,$event)"></td>            <td class="hidden">{{item.ItemID}}</td>
+          <td>{{item.ItemName}}</td>
+          <td>{{item.ItemValue}}</td>
+          <td>{{item.ItemType}}</td>
+          <td><a (click)="onEdit(item.ItemID)" href="javascript:">Edit</a></td>
+          <td><a (click)="onDelete(item.ItemID)" href="javascript:">Delete</a></td>
+          </tr>
+          <button (click)="deleteSelected()">Delete</button>
+      </tbody>
+    </table>
+  </div>
